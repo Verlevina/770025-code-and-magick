@@ -1,9 +1,17 @@
 'use strict';
+
 var heightBarChart = 150;
 var widthBarChart = 40;
 var distanceBetweenColumns = 50;
 var colorOfUserColumn = 'rgba(255, 0, 0, 1)';
-var colorOfAnotherUserColumn = 'blue';
+var colorOfAnotherUserColumn = 'rgba(0,0,255,0)';
+var fontFamily = '16px PT Mono';
+var shadowColor = 'rgba(0, 0, 0, 0.7)';
+var cloudX = 100;
+var cloudY = 10;
+var cloudHeight = 270;
+var cloudWidth = 420;
+
 
 window.renderStatistics = function (ctx, names, times) {
   paintCloud(ctx);
@@ -12,15 +20,15 @@ window.renderStatistics = function (ctx, names, times) {
 
 // отрисовка облака и текста
 var paintCloud = function (ctx) {
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-  ctx.fillRect(110, 20, 420, 270);
+  ctx.fillStyle = shadowColor;
+  ctx.fillRect(cloudX + 10, cloudY + 10, cloudWidth, cloudHeight);
   ctx.fillStyle = '#ffffff';
-  ctx.fillRect(100, 10, 420, 270);
+  ctx.fillRect(cloudX, cloudY, cloudWidth, cloudHeight);
   ctx.textBaseline = 'hanging';
-  ctx.font = '16px PT Mono';
+  ctx.font = fontFamily;
   ctx.fillStyle = '#000000';
-  ctx.fillText('Ура вы победили!', 150, 20);
-  ctx.fillText('Список результатов:', 150, 40);
+  ctx.fillText('Ура вы победили!', cloudX + 50, cloudY + 10);
+  ctx.fillText('Список результатов:', cloudX + 50, cloudY + 30);
 };
 
 // отприсовка гистограммы
@@ -30,9 +38,9 @@ var paintBarChart = function (ctx, names, times) {
   var barChartSizeCoefficient = findBarChartSizeCoefficient(maxTime);
   var heightOfItemsBarChart = findheightOfItemsBarChart(barChartSizeCoefficient, roundTimes);
   for (var i = 0; i < roundTimes.length; i++) {
-    var coordinateX = 160 + i * distanceBetweenColumns + i * widthBarChart;
-    var coordinateY = 90 + heightBarChart - heightOfItemsBarChart[i];
-    ctx.fillStyle = colorOfAnotherUserColumn;
+    var coordinateX = cloudX + 60 + i * distanceBetweenColumns + i * widthBarChart;
+    var coordinateY = cloudY + 80 + heightBarChart - heightOfItemsBarChart[i];
+    ctx.fillStyle = getRandomColor();
     if (names[i] === 'Вы') {
       ctx.fillStyle = colorOfUserColumn;
     }
@@ -40,7 +48,7 @@ var paintBarChart = function (ctx, names, times) {
     ctx.textBaseline = 'hanging';
     ctx.font = '16px PT Mono';
     ctx.fillStyle = '#000000';
-    ctx.fillText(names[i], coordinateX, 100 + heightBarChart);
+    ctx.fillText(names[i], coordinateX, cloudX + heightBarChart);
     ctx.fillText(roundTimes[i], coordinateX, coordinateY - 20);
   }
 };
@@ -77,4 +85,9 @@ var findheightOfItemsBarChart = function (coefficient, times) {
     heights[i] = times[i] * coefficient;
   }
   return heights;
+};
+// Рандомная прозрачность цвета
+var getRandomColor = function () {
+  var newColor = colorOfAnotherUserColumn.substr(0, colorOfAnotherUserColumn.length - 2) + Math.random() + ')';
+  return newColor;
 };
