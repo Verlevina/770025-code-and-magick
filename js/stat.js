@@ -36,7 +36,7 @@ var paintBarChart = function (ctx, names, times) {
   var roundTimes = roundOffTimes(times);
   var maxTime = findMaxTime(roundTimes);
   var barChartSizeCoefficient = findBarChartSizeCoefficient(maxTime);
-  var heightOfItemsBarChart = findheigthOfItemsBarChart(barChartSizeCoefficient, roundTimes);
+  var heightOfItemsBarChart = findHeightOfItemsBarChart(barChartSizeCoefficient, roundTimes);
   for (var i = 0; i < roundTimes.length; i++) {
     var coordinateX = cloudX + 60 + i * distanceBetweenColumns + i * widthBarChart;
     var coordinateY = cloudY + 80 + heightBarChart - heightOfItemsBarChart[i];
@@ -79,7 +79,7 @@ var findBarChartSizeCoefficient = function (maxTime) {
 };
 
 // Поиск высот столбцов гистограммы
-var findheigthOfItemsBarChart = function (coefficient, times) {
+var findHeightOfItemsBarChart = function (coefficient, times) {
   var heights = [];
   for (var i = 0; i < times.length; i++) {
     heights[i] = times[i] * coefficient;
