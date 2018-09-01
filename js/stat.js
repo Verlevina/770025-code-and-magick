@@ -36,7 +36,7 @@ var paintBarChart = function (ctx, names, times) {
   var roundTimes = roundOffTimes(times);
   var maxTime = findMaxTime(roundTimes);
   var barChartSizeCoefficient = findBarChartSizeCoefficient(maxTime);
-  var heightOfItemsBarChart = findheightOfItemsBarChart(barChartSizeCoefficient, roundTimes);
+  var heightOfItemsBarChart = findheigthOfItemsBarChart(barChartSizeCoefficient, roundTimes);
   for (var i = 0; i < roundTimes.length; i++) {
     var coordinateX = cloudX + 60 + i * distanceBetweenColumns + i * widthBarChart;
     var coordinateY = cloudY + 80 + heightBarChart - heightOfItemsBarChart[i];
@@ -79,7 +79,7 @@ var findBarChartSizeCoefficient = function (maxTime) {
 };
 
 // Поиск высот столбцов гистограммы
-var findheightOfItemsBarChart = function (coefficient, times) {
+var findheigthOfItemsBarChart = function (coefficient, times) {
   var heights = [];
   for (var i = 0; i < times.length; i++) {
     heights[i] = times[i] * coefficient;
@@ -88,6 +88,6 @@ var findheightOfItemsBarChart = function (coefficient, times) {
 };
 // Рандомная прозрачность цвета
 var getRandomColor = function () {
-  var newColor = colorOfAnotherUserColumn.substr(0, colorOfAnotherUserColumn.length - 2) + Math.random() + ')';
-  return newColor;
+  var string = colorOfAnotherUserColumn.substr(0, colorOfAnotherUserColumn.length - 2);
+  return string + Math.random() + ')';
 };
