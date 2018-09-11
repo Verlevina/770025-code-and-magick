@@ -1,6 +1,7 @@
 'use strict';
 var setup = document.querySelector('.setup');
-var names = ['Иван',
+var names = [
+  'Иван',
   'Хуан Себастьян',
   'Мария',
   'Кристоф',
@@ -8,7 +9,8 @@ var names = ['Иван',
   'Юлия',
   'Люпита',
   'Вашингтон'];
-var lastNames = ['да Марья',
+var lastNames = [
+  'да Марья',
   'Верон',
   'Мирабелла',
   'Вальц',
@@ -17,14 +19,16 @@ var lastNames = ['да Марья',
   'Нионго',
   'Ирвинг'
 ];
-var colors = ['rgb(101, 137, 164)',
+var colors = [
+  'rgb(101, 137, 164)',
   'rgb(241, 43, 107)',
   'rgb(146, 100, 161)',
   'rgb(56, 159, 117)',
   'rgb(215, 210, 55)',
   'rgb(0, 0, 0)'
 ];
-var eyesColors = ['black',
+var eyesColors = [
+  'black',
   'red',
   'blue',
   'yellow',
@@ -64,14 +68,6 @@ getWizards();
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 var similarListElement = document.querySelector('.setup-similar-list');
 
-// показываем блок SETUP
-
-var showSetup = function () {
-  setup.classList.remove('hidden');
-};
-
-showSetup();
-
 
 var renderWizard = function (wizard) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
@@ -88,5 +84,13 @@ for (var i = 0; i < wizards.length; i++) {
   fragment.appendChild(renderWizard(wizards[i]));
 }
 similarListElement.appendChild(fragment);
+
+// показываем блок SETUP
+
+var showSetup = function () {
+  setup.classList.remove('hidden');
+};
+
+showSetup();
 
 setup.querySelector('.setup-similar').classList.remove('hidden');
