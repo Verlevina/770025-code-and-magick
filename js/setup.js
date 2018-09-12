@@ -3,10 +3,13 @@ var setup = document.querySelector('.setup');
 var setupOpen = document.querySelector('.setup-open');
 var setupClose = document.querySelector('.setup-close');
 var setupOpenIcon = document.querySelector('.setup-open-icon');
-var setupUserName = document.querySelector('.setup-user-name');
-var userWizardCoat = document.querySelector('.setup-wizard .wizard-coat');
-var userWizardEyesColor = document.querySelector('.setup-wizard .wizard-eyes');
-var setupFireball = document.querySelector('.setup-fireball-wrap');
+var setupUserName = setup.querySelector('.setup-user-name');
+var userWizardCoat = setup.querySelector('.setup-wizard .wizard-coat');
+var userWizardEyesColor = setup.querySelector('.setup-wizard .wizard-eyes');
+var setupFireball = setup.querySelector('.setup-fireball-wrap');
+var userCoatColorInput = setup.querySelector('[name="coat-color"]');
+var userEyesColorInput = setup.querySelector('[name="eyes-color"]');
+var userFireballColorInput = setup.querySelector('[name="fireball-color"]');
 var NAMES = [
   'Иван',
   'Хуан Себастьян',
@@ -160,13 +163,22 @@ setupOpenIcon.addEventListener('keydown', function (evnt) {
 });
 
 // Изменение цвета мантии персонажа по нажатию.
-
+// переписывает цвет и значение инпута передаваемых элементов
+var writeColorOfElementUserWizard = function (arrayOfColors, element, input) {
+  var color = getRandomValueFromArray(arrayOfColors);
+  if (element.tagName === 'use') {
+    element.style.fill = color;
+  } else {
+    element.style.backgroundColor = color;
+  }
+  input.value = color;
+};
 userWizardCoat.addEventListener('click', function () {
-  userWizardCoat.style.fill = getRandomValueFromArray(COLORS);
+  writeColorOfElementUserWizard(COLORS, userWizardCoat, userCoatColorInput);
 });
 userWizardEyesColor.addEventListener('click', function () {
-  userWizardEyesColor.style.fill = getRandomValueFromArray(EYES_COLORS);
+  writeColorOfElementUserWizard(EYES_COLORS, userWizardEyesColor, userEyesColorInput);
 });
 setupFireball.addEventListener('click', function () {
-  setupFireball.style.backgroundColor = getRandomValueFromArray(FIREBALL_COLORS);
+  writeColorOfElementUserWizard(FIREBALL_COLORS, setupFireball, userFireballColorInput);
 });
