@@ -1,6 +1,13 @@
 'use strict';
 var setup = document.querySelector('.setup');
-var names = [
+var setupOpen = document.querySelector('.setup-open');
+var setupClose = document.querySelector('.setup-close');
+var setupOpenIcon = document.querySelector('.setup-open-icon');
+var setupUserName = document.querySelector('.setup-user-name');
+var userWizardCoat = document.querySelector('.setup-wizard .wizard-coat');
+var userWizardEyesColor = document.querySelector('.setup-wizard .wizard-eyes');
+var setupFireball = document.querySelector('.setup-fireball-wrap');
+var NAMES = [
   'Иван',
   'Хуан Себастьян',
   'Мария',
@@ -9,7 +16,7 @@ var names = [
   'Юлия',
   'Люпита',
   'Вашингтон'];
-var lastNames = [
+var LAST_NAMES = [
   'да Марья',
   'Верон',
   'Мирабелла',
@@ -19,7 +26,7 @@ var lastNames = [
   'Нионго',
   'Ирвинг'
 ];
-var colors = [
+var COLORS = [
   'rgb(101, 137, 164)',
   'rgb(241, 43, 107)',
   'rgb(146, 100, 161)',
@@ -27,15 +34,23 @@ var colors = [
   'rgb(215, 210, 55)',
   'rgb(0, 0, 0)'
 ];
-var eyesColors = [
+var EYES_COLORS = [
   'black',
   'red',
   'blue',
   'yellow',
   'green'
 ];
+var FIREBALL_COLORS = [
+  '#ee4830',
+  '#30a8ee',
+  '#5ce6c0',
+  '#e848d5',
+  '#e6e848'
+];
 var wizards = [];
-
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 // рандомное число
 
 var getRandomNumbers = function (quantity) {
@@ -45,21 +60,24 @@ var getRandomNumbers = function (quantity) {
 var getWizardName = function () {
   var wizardName;
   if (getRandomNumbers(2)) {
-    wizardName = names[getRandomNumbers(names.length)] + ' ' + lastNames[getRandomNumbers(lastNames.length)];
+    wizardName = NAMES[getRandomNumbers(NAMES.length)] + ' ' + LAST_NAMES[getRandomNumbers(LAST_NAMES.length)];
   } else {
-    wizardName = lastNames[getRandomNumbers(lastNames.length)] + ' ' + names[getRandomNumbers(names.length)];
+    wizardName = LAST_NAMES[getRandomNumbers(LAST_NAMES.length)] + ' ' + NAMES[getRandomNumbers(NAMES.length)];
   }
   return wizardName;
 };
-
+// функция, котторая выдает рандомное значение из данного массивы
+var getRandomValueFromArray = function (array) {
+  return array[getRandomNumbers(array.length)];
+};
 // создание объекта данных
 
 var getWizards = function () {
   for (var i = 0; i < 4; i++) {
     wizards[i] = {};
     wizards[i].name = getWizardName();
-    wizards[i].coatColor = colors[getRandomNumbers(colors.length)];
-    wizards[i].eyesColor = eyesColors[getRandomNumbers(eyesColors.length)];
+    wizards[i].coatColor = getRandomValueFromArray(COLORS);
+    wizards[i].eyesColor = getRandomValueFromArray(EYES_COLORS);
   }
 };
 
@@ -89,8 +107,66 @@ similarListElement.appendChild(fragment);
 
 var showSetup = function () {
   setup.classList.remove('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
 };
 
-showSetup();
-
+var hideSetup = function () {
+  setup.classList.add('hidden');
+};
 setup.querySelector('.setup-similar').classList.remove('hidden');
+
+// Открытие/закрытие окна настройки персонажа:
+// обработчик нажатия на esc
+var onPopupEscPress = function (evnt) {
+  if (evnt.keyCode === ESC_KEYCODE) {
+
+    hideSetup();
+  }
+};
+// при фокусе на вводе имени волшебника
+setupUserName.addEventListener('focus', function () {
+  document.removeEventListener('keydown', onPopupEscPress);
+});
+setupUserName.addEventListener('blur', function () {
+  document.addEventListener('keydown', onPopupEscPress);
+});
+
+var openPopup = function () {
+  showSetup();
+  document.addEventListener('keydown', onPopupEscPress);
+  // Если окно открыто и фокус находится на кнопке закрытия окна, то нажатие клавиши ENTER должно приводить к
+  // закрытию диалога
+  setupClose.addEventListener('keydown', function (evnt) {
+    if (evnt.keyCode === ENTER_KEYCODE) {
+      hideSetup();
+    }
+  });
+  // Если диалог открыт, нажатие на кнопку «Сохранить» приводит к отправке формы
+
+};
+// при клике на аватар открывает попап и обрабатываем события нажатия на esc
+setupOpen.addEventListener('click', function () {
+  openPopup();
+});
+
+setupClose.addEventListener('click', function () {
+  hideSetup();
+});
+
+setupOpenIcon.addEventListener('keydown', function (evnt) {
+  if (evnt.keyCode === ENTER_KEYCODE) {
+    openPopup();
+  }
+});
+
+// Изменение цвета мантии персонажа по нажатию.
+
+userWizardCoat.addEventListener('click', function () {
+  userWizardCoat.style.fill = getRandomValueFromArray(COLORS);
+});
+userWizardEyesColor.addEventListener('click', function () {
+  userWizardEyesColor.style.fill = getRandomValueFromArray(EYES_COLORS);
+});
+setupFireball.addEventListener('click', function () {
+  setupFireball.style.backgroundColor = getRandomValueFromArray(FIREBALL_COLORS);
+});
