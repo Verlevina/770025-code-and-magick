@@ -182,3 +182,4 @@ userWizardEyesColor.addEventListener('click', function () {
 setupFireball.addEventListener('click', function () {
   writeColorOfElementUserWizard(FIREBALL_COLORS, setupFireball, userFireballColorInput);
 });
+
