@@ -52,6 +52,7 @@
     '#e848d5',
     '#e6e848'
   ];
+  var setupDialogElement = document.querySelector('.setup');
   var wizards = [];
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
@@ -115,6 +116,7 @@
   };
 
   var hideSetup = function () {
+    setupDialogElement.style = '';
     setup.classList.add('hidden');
   };
   setup.querySelector('.setup-similar').classList.remove('hidden');
