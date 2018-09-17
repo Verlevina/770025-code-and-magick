@@ -125,7 +125,6 @@
   // обработчик нажатия на esc
   var onPopupEscPress = function (evnt) {
     if (evnt.keyCode === ESC_KEYCODE) {
-
       hideSetup();
     }
   };
