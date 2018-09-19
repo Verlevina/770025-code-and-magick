@@ -11,25 +11,25 @@
   var userCoatColorInput = setup.querySelector('[name="coat-color"]');
   var userEyesColorInput = setup.querySelector('[name="eyes-color"]');
   var userFireballColorInput = setup.querySelector('[name="fireball-color"]');
-  var NAMES = [
-    'Иван',
-    'Хуан Себастьян',
-    'Мария',
-    'Кристоф',
-    'Виктор',
-    'Юлия',
-    'Люпита',
-    'Вашингтон'];
-  var LAST_NAMES = [
-    'да Марья',
-    'Верон',
-    'Мирабелла',
-    'Вальц',
-    'Онопко',
-    'Топольницкая',
-    'Нионго',
-    'Ирвинг'
-  ];
+  // var NAMES = [
+  //   'Иван',
+  //   'Хуан Себастьян',
+  //   'Мария',
+  //   'Кристоф',
+  //   'Виктор',
+  //   'Юлия',
+  //   'Люпита',
+  //   'Вашингтон'];
+  // var LAST_NAMES = [
+  //   'да Марья',
+  //   'Верон',
+  //   'Мирабелла',
+  //   'Вальц',
+  //   'Онопко',
+  //   'Топольницкая',
+  //   'Нионго',
+  //   'Ирвинг'
+  // ];
   var COLORS = [
     'rgb(101, 137, 164)',
     'rgb(241, 43, 107)',
