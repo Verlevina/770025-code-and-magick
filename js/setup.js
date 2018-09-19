@@ -53,7 +53,7 @@
     '#e6e848'
   ];
   var setupDialogElement = document.querySelector('.setup');
-  var wizards = [];
+
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
   // рандомное число
@@ -81,11 +81,12 @@
   //  var formWisard = document.querySelector('.setup-wizard-form');
     var onLoadLoad = function (response) {
       wizards = response;
+      return wizards;
     };
     var onErrorLoad = function (error) {
       alert(error);
     };
-    window.backend.load(/*new FormData(formWisard),*/ onLoadLoad, onErrorLoad);
+    window.backend.load(/* new FormData(formWisard),*/ onLoadLoad, onErrorLoad);
     // for (var i = 0; i < 4; i++) {
     //   wizards[i] = {};
     //   wizards[i].name = getWizardName();
@@ -94,7 +95,7 @@
     // }
   };
 
-  getWizards();
+  var wizards = getWizards();
 
   var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
   var similarListElement = document.querySelector('.setup-similar-list');
@@ -111,7 +112,7 @@
   };
 
   var fragment = document.createDocumentFragment();
-  for (var i = 0; i < wizards.length; i++) {
+  for (var i = 0; i < 4; i++) {
     fragment.appendChild(renderWizard(wizards[i]));
   }
   similarListElement.appendChild(fragment);

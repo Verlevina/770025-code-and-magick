@@ -20,6 +20,8 @@
       xhr.open('GET', URL);
 
       xhr.addEventListener('load', function () {
+        console.dir(xhr.status);
+        console.dir(xhr.response);
         if (xhr.status === 200) {
           onLoad(xhr.response);
         } else {
