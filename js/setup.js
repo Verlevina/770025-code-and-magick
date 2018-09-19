@@ -78,12 +78,20 @@
   // создание объекта данных
 
   var getWizards = function () {
-    for (var i = 0; i < 4; i++) {
-      wizards[i] = {};
-      wizards[i].name = getWizardName();
-      wizards[i].coatColor = getRandomValueFromArray(COLORS);
-      wizards[i].eyesColor = getRandomValueFromArray(EYES_COLORS);
-    }
+  //  var formWisard = document.querySelector('.setup-wizard-form');
+    var onLoadLoad = function (response) {
+      wizards = response;
+    };
+    var onErrorLoad = function (error) {
+      alert(error);
+    };
+    window.backend.load(/*new FormData(formWisard),*/ onLoadLoad, onErrorLoad);
+    // for (var i = 0; i < 4; i++) {
+    //   wizards[i] = {};
+    //   wizards[i].name = getWizardName();
+    //   wizards[i].coatColor = getRandomValueFromArray(COLORS);
+    //   wizards[i].eyesColor = getRandomValueFromArray(EYES_COLORS);
+    // }
   };
 
   getWizards();
@@ -150,11 +158,24 @@
     // Если диалог открыт, нажатие на кнопку «Сохранить» приводит к отправке формы
 
   };
-  // при клике на аватар открывает попап и обрабатываем события нажатия на esc
+
   setupOpen.addEventListener('click', function () {
     openPopup();
-  });
 
+    var formWisard = document.querySelector('.setup-wizard-form');
+    // отправка формы
+
+
+    formWisard.addEventListener('submit', function (evt) {
+      window.backend.save(new FormData(formWisard), function () {
+        hideSetup();
+      });
+      evt.preventDefault();
+    });
+
+
+  });
+  // при клике на аватар открывает попап и обрабатываем события нажатия на esc
   setupClose.addEventListener('click', function () {
     hideSetup();
   });
