@@ -62,15 +62,15 @@
     return Math.floor(Math.random() * quantity);
   };
 
-  var getWizardName = function () {
-    var wizardName;
-    if (getRandomNumbers(2)) {
-      wizardName = NAMES[getRandomNumbers(NAMES.length)] + ' ' + LAST_NAMES[getRandomNumbers(LAST_NAMES.length)];
-    } else {
-      wizardName = LAST_NAMES[getRandomNumbers(LAST_NAMES.length)] + ' ' + NAMES[getRandomNumbers(NAMES.length)];
-    }
-    return wizardName;
-  };
+  // var getWizardName = function () {
+  //   var wizardName;
+  //   if (getRandomNumbers(2)) {
+  //     wizardName = NAMES[getRandomNumbers(NAMES.length)] + ' ' + LAST_NAMES[getRandomNumbers(LAST_NAMES.length)];
+  //   } else {
+  //     wizardName = LAST_NAMES[getRandomNumbers(LAST_NAMES.length)] + ' ' + NAMES[getRandomNumbers(NAMES.length)];
+  //   }
+  //   return wizardName;
+  // };
   // функция, котторая выдает рандомное значение из данного массивы
   var getRandomValueFromArray = function (array) {
     return array[getRandomNumbers(array.length)];
@@ -80,13 +80,15 @@
   var getWizards = function () {
   //  var formWisard = document.querySelector('.setup-wizard-form');
     var onLoadLoad = function (response) {
-      wizards = response;
-      return wizards;
+
+
+      drawWizards(response);
+
     };
     var onErrorLoad = function (error) {
-      alert(error);
+      window.backend.renderErrorMessage(error);
     };
-    window.backend.load(/* new FormData(formWisard),*/ onLoadLoad, onErrorLoad);
+    window.backend.load(/* new FormData(formWisard),*/11, onLoadLoad, onErrorLoad);
     // for (var i = 0; i < 4; i++) {
     //   wizards[i] = {};
     //   wizards[i].name = getWizardName();
@@ -94,8 +96,7 @@
     //   wizards[i].eyesColor = getRandomValueFromArray(EYES_COLORS);
     // }
   };
-
-  var wizards = getWizards();
+  getWizards();
 
   var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
   var similarListElement = document.querySelector('.setup-similar-list');
@@ -103,23 +104,24 @@
 
   var renderWizard = function (wizard) {
     var wizardElement = similarWizardTemplate.cloneNode(true);
-
     wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
-    wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
-    wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+    wizardElement.querySelector('.wizard-coat').style.fill = wizard.colorCoat;
+    wizardElement.querySelector('.wizard-eyes').style.fill = wizard.colorEyes;
 
     return wizardElement;
   };
+  var drawWizards = function (wizards) {
+    var fragment = document.createDocumentFragment();
 
-  var fragment = document.createDocumentFragment();
-  for (var i = 0; i < 4; i++) {
-    fragment.appendChild(renderWizard(wizards[i]));
-  }
-  similarListElement.appendChild(fragment);
-
+    for (var i = 0; i < 4; i++) {
+      fragment.appendChild(renderWizard(wizards[getRandomNumbers(wizards.length - 1)]));
+    }
+    similarListElement.appendChild(fragment);
+  };
   // показываем блок SETUP
 
   var showSetup = function () {
+
     setup.classList.remove('hidden');
     document.removeEventListener('keydown', onPopupEscPress);
   };
@@ -163,17 +165,22 @@
   setupOpen.addEventListener('click', function () {
     openPopup();
 
-    var formWisard = document.querySelector('.setup-wizard-form');
+    var formWizard = document.querySelector('.setup-wizard-form');
     // отправка формы
 
 
-    formWisard.addEventListener('submit', function (evt) {
-      window.backend.save(new FormData(formWisard), function () {
+    formWizard.addEventListener('submit', function (evt) {
+      var onLoad = function () {
         hideSetup();
-      });
+      };
+      var onError = function (error) {
+        window.backend.renderErrorMessage(error);
+      };
+
+
+      window.backend.save(new FormData(formWizard), onLoad, onError);
       evt.preventDefault();
     });
-
 
   });
   // при клике на аватар открывает попап и обрабатываем события нажатия на esc
